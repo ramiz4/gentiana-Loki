@@ -138,6 +138,38 @@ body {
     width: 100%;
 }
 
+.language-toggle {
+    background: var(--gradient);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    margin-left: 1rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.language-toggle:hover {
+    transform: scale(1.1);
+}
+
+.language-toggle:focus,
+.language-toggle:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.9);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.6);
+}
+
+.lang-text {
+    display: block;
+}
+
 .theme-toggle {
     background: var(--gradient);
     border: none;
@@ -150,7 +182,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: var(--transition);
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 .theme-toggle:hover {
@@ -893,9 +925,16 @@ section {
         justify-content: center;
     }
     
+    .language-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        margin-left: 0.5rem;
+    }
+    
     .theme-toggle {
         min-width: 44px;
         min-height: 44px;
+        margin-left: 0.5rem;
     }
 
     .hero-content {
