@@ -36,13 +36,17 @@ jobs:
         run: |
           echo "Building static site..."
           mkdir -p _site
-          if [ -d "src" ] && [ "$(ls -A src)" ]; then
-            cp -r src/. _site/
-            echo "Build completed successfully"
-          else
-            echo "Error: src directory is empty or does not exist"
-            exit 1
-          fi
+          # Copy the main website files from root directory
+          for file in index.html styles.css script.js; do
+            if [ -f "$file" ]; then
+              cp "$file" _site/
+              echo "✓ Copied $file"
+            else
+              echo "✗ Error: Required file $file not found"
+              exit 1
+            fi
+          done
+          echo "Build completed successfully"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
