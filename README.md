@@ -1,4 +1,4 @@
-# Interactive Modern Resume Website
+# Gentiana Loki - Interactive Modern Resume Website
 
 A stunning, fully interactive portfolio/resume website built with pure HTML, CSS, and JavaScript. Features smooth animations, dark mode, responsive design, and an engaging user experience.
 
@@ -8,10 +8,10 @@ A stunning, fully interactive portfolio/resume website built with pure HTML, CSS
 - 🌓 **Dark/Light Mode** - Toggle between themes with persistent storage
 - 📱 **Fully Responsive** - Optimized for mobile, tablet, and desktop
 - ⚡ **Interactive Animations** - Typing effects, skill bars, counters, and more
-- 📝 **Contact Form** - With validation and success notifications
 - 🎯 **Smooth Scrolling** - Navigation with active section highlighting
 - 🎭 **Hover Effects** - Interactive cards with 3D tilt effects
-- ♿ **Accessible** - Semantic HTML and keyboard navigation
+- ♿ **Accessible** - Semantic HTML, ARIA labels, and keyboard navigation
+- 🔒 **Secure** - SRI for external resources, no unsafe practices
 
 ## 🚀 Quick Start
 
@@ -23,23 +23,22 @@ A stunning, fully interactive portfolio/resume website built with pure HTML, CSS
 
 ### Personal Information
 Edit `index.html` to update:
-- Name and job titles (line 42, 44)
-- About section content (lines 77-85)
-- Experience details (lines 110-167)
-- Project showcases (lines 183-289)
-- Contact information (lines 317-337)
+- Name and job titles
+- About section content
+- Experience details
+- Education and qualifications
+- Contact information
 
 ### Styling
 Edit `styles.css` to customize:
-- Color scheme (lines 8-17 - CSS variables)
+- Color scheme (CSS variables in `:root`)
 - Fonts and typography
 - Spacing and layout
 - Animation timings
 
 ### Functionality
 Edit `script.js` to modify:
-- Typing animation texts (line 90)
-- Form behavior (lines 171-183)
+- Typing animation texts
 - Animation triggers and effects
 
 ## 📂 File Structure
@@ -48,7 +47,10 @@ Edit `script.js` to modify:
 ├── index.html      # Main HTML structure
 ├── styles.css      # All styling and animations
 ├── script.js       # Interactive functionality
-└── README.md       # This file
+├── README.md       # This file
+└── .github/
+    └── workflows/
+        └── deploy-pages.yml  # GitHub Actions workflow
 ```
 
 ## 🎨 Color Scheme
@@ -67,18 +69,11 @@ Change these in the CSS `:root` variables to customize the color scheme.
 - ✅ Safari (latest)
 - ✅ Edge (latest)
 
-## 📄 License
-
-Feel free to use this template for your personal portfolio!
-
-## 🤝 Contributing
-
-This is a personal portfolio template. Feel free to fork and customize for your own use.
-# gentiana-Loki
+## 🚀 Deployment
 
 This repository includes a best practices GitHub Actions workflow that automatically deploys to GitHub Pages.
 
-## Features
+### Features
 
 - **Automated Deployment**: Deploys to GitHub Pages on push to main branch
 - **Manual Trigger**: Can be manually triggered from the Actions tab
@@ -87,10 +82,8 @@ This repository includes a best practices GitHub Actions workflow that automatic
   - Uses GITHUB_TOKEN with specific permissions
   - OpenID Connect (OIDC) for secure authentication
 - **Concurrency Control**: Prevents overlapping deployments
-- **Artifact Management**: Proper upload/download of build artifacts
-- **Modern Actions**: Uses latest stable versions with SHA pinning capability
 
-## Setup
+### Setup
 
 1. Enable GitHub Pages in your repository settings:
    - Go to Settings > Pages
@@ -100,27 +93,22 @@ This repository includes a best practices GitHub Actions workflow that automatic
    - Every push to the `main` branch
    - Manual trigger from the Actions tab
 
-## Workflow Structure
+## 📄 License
 
-The workflow consists of two jobs:
+Feel free to use this template for your personal portfolio!
 
-1. **Build Job**: 
-   - Checks out the repository
-   - Sets up GitHub Pages configuration
-   - Builds the static site
-   - Uploads the artifact
+## 🤝 Contributing
 
-2. **Deploy Job**:
-   - Downloads the build artifact
-   - Deploys to GitHub Pages
-   - Provides the deployment URL
+This is a personal portfolio template. Feel free to fork and customize for your own use.
 
-## Best Practices Implemented
+## 📊 Code Quality
 
-- ✅ Explicit permissions declaration
-- ✅ Concurrency control to prevent race conditions
-- ✅ Separation of build and deploy jobs
-- ✅ Use of official GitHub actions
-- ✅ Clear job dependencies
-- ✅ Environment-specific deployments
-- ✅ Comprehensive comments and documentation
+This project has undergone comprehensive code review covering:
+- ✅ Code quality and best practices
+- ✅ Security vulnerabilities
+- ✅ Accessibility standards (WCAG)
+- ✅ Content and documentation
+- ✅ Performance optimization
+
+See [CODE_REVIEW_REPORT.md](CODE_REVIEW_REPORT.md) for detailed analysis.
+

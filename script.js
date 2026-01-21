@@ -1,32 +1,16 @@
+'use strict';
+
 // ========================================
 // Theme Toggle
 // ========================================
 const themeToggle = document.getElementById('themeToggle');
 const body = document.body;
 
-// Check for saved theme preference or default to 'light' mode
-const currentTheme = localStorage.getItem('theme') || 'light';
-body.setAttribute('data-theme', currentTheme);
-
-// Update icon based on current theme
-updateThemeIcon(currentTheme);
-
-themeToggle.addEventListener('click', () => {
-    let theme = body.getAttribute('data-theme');
-    
-    if (theme === 'light') {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        updateThemeIcon('dark');
-    } else {
-        body.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        updateThemeIcon('light');
-    }
-});
-
 function updateThemeIcon(theme) {
+    if (!themeToggle) return;
     const icon = themeToggle.querySelector('i');
+    if (!icon) return;
+    
     if (theme === 'dark') {
         icon.classList.remove('fa-moon');
         icon.classList.add('fa-sun');
@@ -36,24 +20,62 @@ function updateThemeIcon(theme) {
     }
 }
 
+if (!themeToggle || !body) {
+    console.error('Theme toggle elements not found');
+} else {
+    // Check for saved theme preference or default to 'light' mode
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', currentTheme);
+
+    // Update icon based on current theme
+    updateThemeIcon(currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+        let theme = body.getAttribute('data-theme');
+        
+        if (theme === 'light') {
+            body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            updateThemeIcon('dark');
+        } else {
+            body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            updateThemeIcon('light');
+        }
+    });
+}
+
 // ========================================
 // Mobile Navigation
 // ========================================
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.querySelector('.nav-links');
 
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
+if (!hamburger || !navLinks) {
+    console.error('Mobile navigation elements not found');
+} else {
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
     });
-});
+
+    // Add keyboard accessibility for hamburger menu
+    hamburger.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+    });
+}
 
 // ========================================
 // Smooth Scrolling & Active Nav Link
@@ -99,6 +121,11 @@ let isDeleting = false;
 let typingDelay = 200;
 
 function type() {
+    if (!typingText) {
+        console.error('Typing text element not found');
+        return;
+    }
+    
     const currentText = texts[textIndex];
 
     if (isDeleting) {
@@ -125,7 +152,9 @@ function type() {
 }
 
 // Start typing animation
-setTimeout(type, 1000);
+if (typingText) {
+    setTimeout(type, 1000);
+}
 
 // ========================================
 // Skill Bar Animation
@@ -218,12 +247,12 @@ projectCards.forEach(card => {
 // ========================================
 const heroShape = document.querySelector('.hero-shape');
 
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    if (heroShape) {
+if (heroShape) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
         heroShape.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
+    });
+}
 
 // ========================================
 // Counter Animation for Stats
@@ -265,12 +294,6 @@ stats.forEach(stat => statsObserver.observe(stat));
 // ========================================
 // This feature is reserved for future visual cursor trail implementation
 // Uncomment and implement rendering when needed
-
-// ========================================
-// Console Welcome Message
-// ========================================
-console.log('%c Welcome to my Portfolio! ', 'background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 20px; padding: 10px;');
-console.log('%c Looking for something? Feel free to explore the code! ', 'color: #667eea; font-size: 14px;');
 
 // ========================================
 // Initialize on Load
