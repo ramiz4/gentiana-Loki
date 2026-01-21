@@ -6,6 +6,20 @@
 const themeToggle = document.getElementById('themeToggle');
 const body = document.body;
 
+function updateThemeIcon(theme) {
+    if (!themeToggle) return;
+    const icon = themeToggle.querySelector('i');
+    if (!icon) return;
+    
+    if (theme === 'dark') {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+}
+
 if (!themeToggle || !body) {
     console.error('Theme toggle elements not found');
 } else {
@@ -29,20 +43,6 @@ if (!themeToggle || !body) {
             updateThemeIcon('light');
         }
     });
-}
-
-function updateThemeIcon(theme) {
-    if (!themeToggle) return;
-    const icon = themeToggle.querySelector('i');
-    if (!icon) return;
-    
-    if (theme === 'dark') {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-    }
 }
 
 // ========================================

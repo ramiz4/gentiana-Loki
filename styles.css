@@ -162,6 +162,9 @@ body {
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .hamburger span {
