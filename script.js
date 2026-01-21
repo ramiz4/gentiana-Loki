@@ -357,25 +357,10 @@ const statsObserver = new IntersectionObserver((entries) => {
 stats.forEach(stat => statsObserver.observe(stat));
 
 // ========================================
-// Cursor Trail Effect (Optional)
+// Cursor Trail Effect (Optional - Reserved for future enhancement)
 // ========================================
-let cursorTrail = [];
-const maxTrailLength = 10;
-
-document.addEventListener('mousemove', (e) => {
-    // Only add trail effect on desktop
-    if (window.innerWidth > 768) {
-        cursorTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-        
-        // Remove old trails
-        cursorTrail = cursorTrail.filter(point => Date.now() - point.time < 500);
-        
-        // Limit trail length
-        if (cursorTrail.length > maxTrailLength) {
-            cursorTrail.shift();
-        }
-    }
-});
+// This feature is reserved for future visual cursor trail implementation
+// Uncomment and implement rendering when needed
 
 // ========================================
 // Console Welcome Message
