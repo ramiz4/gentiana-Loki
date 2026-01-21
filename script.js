@@ -87,10 +87,10 @@ window.addEventListener('scroll', setActiveNav);
 // ========================================
 const typingText = document.querySelector('.typing-text');
 const texts = [
-    'Full Stack Developer',
-    'UI/UX Designer',
-    'Creative Problem Solver',
-    'Tech Enthusiast'
+    'Customer Service Professional',
+    'Administration Specialist',
+    'Finance & Budget Expert',
+    'Multilingual Communicator'
 ];
 
 let textIndex = 0;
