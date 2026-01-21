@@ -287,12 +287,6 @@ stats.forEach(stat => statsObserver.observe(stat));
 // Uncomment and implement rendering when needed
 
 // ========================================
-// Console Welcome Message
-// ========================================
-console.log('%c Welcome to my Portfolio! ', 'background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 20px; padding: 10px;');
-console.log('%c Looking for something? Feel free to explore the code! ', 'color: #667eea; font-size: 14px;');
-
-// ========================================
 // Initialize on Load
 // ========================================
 window.addEventListener('load', () => {
