@@ -244,17 +244,26 @@ function updateLanguage(lang) {
     // Update HTML lang attribute
     document.documentElement.lang = lang;
     
-    // Navigation
-    document.querySelector('a[href="#home"]').textContent = t.navHome;
-    document.querySelector('a[href="#about"]').textContent = t.navAbout;
-    document.querySelector('a[href="#experience"]').textContent = t.navExperience;
-    document.querySelector('a[href="#education"]').textContent = t.navEducation;
-    document.querySelector('a[href="#contact"]').textContent = t.navContact;
+    // Navigation - with error handling
+    const navHomeLink = document.querySelector('a[href="#home"]');
+    if (navHomeLink) navHomeLink.textContent = t.navHome;
+    const navAboutLink = document.querySelector('a[href="#about"]');
+    if (navAboutLink) navAboutLink.textContent = t.navAbout;
+    const navExperienceLink = document.querySelector('a[href="#experience"]');
+    if (navExperienceLink) navExperienceLink.textContent = t.navExperience;
+    const navEducationLink = document.querySelector('a[href="#education"]');
+    if (navEducationLink) navEducationLink.textContent = t.navEducation;
+    const navContactLink = document.querySelector('a[href="#contact"]');
+    if (navContactLink) navContactLink.textContent = t.navContact;
     
-    // Hero Section
+    // Hero Section - using DOM manipulation to avoid XSS
     const heroH1 = document.querySelector('.hero-text h1');
     if (heroH1) {
-        heroH1.innerHTML = `${t.heroGreeting} <span class="highlight">${t.heroName}</span>`;
+        heroH1.textContent = t.heroGreeting + ' ';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'highlight';
+        nameSpan.textContent = t.heroName;
+        heroH1.appendChild(nameSpan);
     }
     const heroDesc = document.querySelector('.hero-description');
     if (heroDesc) {
@@ -264,7 +273,7 @@ function updateLanguage(lang) {
     if (heroButtons[0]) heroButtons[0].textContent = t.heroButton1;
     if (heroButtons[1]) heroButtons[1].textContent = t.heroButton2;
     
-    // Update typing animation texts
+    // Update typing animation texts by reinitializing the array
     texts[0] = t.heroTyping1;
     texts[1] = t.heroTyping2;
     texts[2] = t.heroTyping3;
@@ -343,7 +352,13 @@ function updateLanguage(lang) {
             const paragraphs = card.querySelectorAll('.project-content > p');
             paragraphs[0].textContent = t[data.desc];
             if (data.note && paragraphs[1]) {
-                paragraphs[1].innerHTML = `<em><small>${t[data.note]}</small></em>`;
+                // Build <em><small>...</small></em> using DOM APIs to avoid innerHTML
+                paragraphs[1].textContent = '';
+                const emEl = document.createElement('em');
+                const smallEl = document.createElement('small');
+                smallEl.textContent = t[data.note];
+                emEl.appendChild(smallEl);
+                paragraphs[1].appendChild(emEl);
             }
             const tags = card.querySelectorAll('.project-tech span');
             tags.forEach((tag, tagIndex) => {
@@ -368,9 +383,15 @@ function updateLanguage(lang) {
     const locationP = document.querySelector('.contact-item:nth-child(3) p');
     if (locationP) locationP.textContent = t.contactLocationText;
     
-    // Footer
-    document.querySelector('.footer-content > p').textContent = t.footerText;
-    document.querySelector('.footer-links a').textContent = t.footerContact;
+    // Footer - with more robust selectors
+    const footerTextEl = document.querySelector('.footer-content > p');
+    if (footerTextEl) {
+        footerTextEl.textContent = t.footerText;
+    }
+    const footerContactLink = document.querySelector('.footer-links a[href="#contact"]');
+    if (footerContactLink) {
+        footerContactLink.textContent = t.footerContact;
+    }
     
     // Update language toggle button icon
     updateLanguageIcon(lang);
@@ -380,15 +401,26 @@ function updateLanguageIcon(lang) {
     const langToggle = document.getElementById('languageToggle');
     if (!langToggle) return;
     
+    // Update visible language text
     const icon = langToggle.querySelector('.lang-text');
     if (icon) {
         icon.textContent = lang === 'en' ? 'DE' : 'EN';
     }
+    
+    // Update ARIA label to reflect the target language for screen readers
+    const targetLanguageLabel = lang === 'en' ? 'German' : 'English';
+    langToggle.setAttribute('aria-label', 'Switch to ' + targetLanguageLabel);
 }
+
+// Hide content until language is initialized to prevent flash of default language
+document.documentElement.style.visibility = 'hidden';
 
 // Initialize language on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
+    
+    // Reveal content after language has been applied
+    document.documentElement.style.visibility = '';
     
     // Set up language toggle event listener
     const languageToggle = document.getElementById('languageToggle');
@@ -508,18 +540,24 @@ window.addEventListener('scroll', setActiveNav);
 // Typing Animation
 // ========================================
 const typingText = document.querySelector('.typing-text');
-const texts = [
-    'Customer Service Professional',
-    'Administration Specialist',
-    'Finance & Budget Expert',
-    'Multilingual Communicator'
-];
+// Initialize texts array from translations based on current language
+let texts = [];
 
 let textIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 let typingDelay = 200;
 let typingTimeout = null;
+
+function initializeTexts() {
+    const t = translations[currentLanguage];
+    texts = [
+        t.heroTyping1,
+        t.heroTyping2,
+        t.heroTyping3,
+        t.heroTyping4
+    ];
+}
 
 function type() {
     if (!typingText) {
@@ -564,9 +602,12 @@ function restartTypingAnimation() {
     typingDelay = 200;
     if (typingText) {
         typingText.textContent = '';
-        typingTimeout = setTimeout(type, 500);
+        typingTimeout = setTimeout(type, 1000);
     }
 }
+
+// Initialize texts array on load
+initializeTexts();
 
 // Start typing animation
 if (typingText) {
