@@ -27,8 +27,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch all history for proper version tracking
 
       - name: Setup Pages
         id: pages
@@ -38,8 +36,13 @@ jobs:
         run: |
           echo "Building static site..."
           mkdir -p _site
-          cp -r src/* _site/
-          echo "Build completed successfully"
+          if [ -d "src" ] && [ "$(ls -A src)" ]; then
+            cp -r src/. _site/
+            echo "Build completed successfully"
+          else
+            echo "Error: src directory is empty or does not exist"
+            exit 1
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
