@@ -978,10 +978,6 @@ section {
         text-align: left;
         width: 100%;
     }
-    
-    .contact-item i {
-        min-width: 50px;
-    }
 
     .footer-content {
         flex-direction: column;
