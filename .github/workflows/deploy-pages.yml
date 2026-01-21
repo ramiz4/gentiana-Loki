@@ -37,7 +37,7 @@ jobs:
           echo "Building static site..."
           mkdir -p _site
           # Copy the main website files from root directory
-          for file in index.html styles.css script.js cv-de-gentiana-loki-2026.pdf; do
+          for file in index.html styles.css script.js; do
             if [ -f "$file" ]; then
               cp "$file" _site/
               echo "✓ Copied $file"
