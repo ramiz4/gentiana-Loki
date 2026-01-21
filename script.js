@@ -270,6 +270,9 @@ function updateLanguage(lang) {
     texts[2] = t.heroTyping3;
     texts[3] = t.heroTyping4;
     
+    // Restart typing animation with new texts
+    restartTypingAnimation();
+    
     // About Section
     document.querySelector('#about .section-title').textContent = t.aboutTitle;
     document.querySelector('#about .section-subtitle').textContent = t.aboutSubtitle;
@@ -386,6 +389,15 @@ function updateLanguageIcon(lang) {
 // Initialize language on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
+    
+    // Set up language toggle event listener
+    const languageToggle = document.getElementById('languageToggle');
+    if (languageToggle) {
+        languageToggle.addEventListener('click', () => {
+            const newLang = currentLanguage === 'en' ? 'de' : 'en';
+            updateLanguage(newLang);
+        });
+    }
 });
 
 // ========================================
@@ -507,6 +519,7 @@ let textIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 let typingDelay = 200;
+let typingTimeout = null;
 
 function type() {
     if (!typingText) {
@@ -536,7 +549,23 @@ function type() {
         typingDelay = 500;
     }
 
-    setTimeout(type, typingDelay);
+    typingTimeout = setTimeout(type, typingDelay);
+}
+
+function restartTypingAnimation() {
+    // Clear existing animation
+    if (typingTimeout) {
+        clearTimeout(typingTimeout);
+    }
+    // Reset animation state
+    textIndex = 0;
+    charIndex = 0;
+    isDeleting = false;
+    typingDelay = 200;
+    if (typingText) {
+        typingText.textContent = '';
+        typingTimeout = setTimeout(type, 500);
+    }
 }
 
 // Start typing animation
@@ -682,17 +711,6 @@ stats.forEach(stat => statsObserver.observe(stat));
 // ========================================
 // This feature is reserved for future visual cursor trail implementation
 // Uncomment and implement rendering when needed
-
-// ========================================
-// Language Toggle Event Listener
-// ========================================
-const languageToggle = document.getElementById('languageToggle');
-if (languageToggle) {
-    languageToggle.addEventListener('click', () => {
-        const newLang = currentLanguage === 'en' ? 'de' : 'en';
-        updateLanguage(newLang);
-    });
-}
 
 // ========================================
 // Initialize on Load
