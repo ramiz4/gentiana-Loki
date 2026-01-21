@@ -59,6 +59,15 @@ if (!hamburger || !navLinks) {
         hamburger.classList.toggle('active');
     });
 
+    // Add keyboard accessibility for hamburger menu
+    hamburger.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+    });
+
     // Close mobile menu when clicking on a link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
