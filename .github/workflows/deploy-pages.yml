@@ -37,10 +37,15 @@ jobs:
           echo "Building static site..."
           mkdir -p _site
           # Copy the main website files from root directory
-          cp index.html _site/
-          cp styles.css _site/
-          cp script.js _site/
-          cp cv-de-gentiana-loki-2026.pdf _site/
+          for file in index.html styles.css script.js cv-de-gentiana-loki-2026.pdf; do
+            if [ -f "$file" ]; then
+              cp "$file" _site/
+              echo "✓ Copied $file"
+            else
+              echo "✗ Error: Required file $file not found"
+              exit 1
+            fi
+          done
           echo "Build completed successfully"
 
       - name: Upload artifact
