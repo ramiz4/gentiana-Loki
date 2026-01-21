@@ -1,6 +1,6 @@
-# Gentiana Loki - Interactive Modern Resume Website
+# Gentiana Loki
 
-A stunning, fully interactive portfolio/resume website built with pure HTML, CSS, and JavaScript. Features smooth animations, dark mode, responsive design, and an engaging user experience.
+My personal portfolio and resume website.
 
 ## ✨ Features
 
