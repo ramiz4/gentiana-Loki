@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gentiana Loki - Professional Resume & Portfolio</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <!-- Using Tailwind Play CDN for static site. Does not support SRI as it generates CSS dynamically.
+         For production with stricter security requirements, consider building with Tailwind CLI and self-hosting. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <!-- Custom styles for glassmorphism effects -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f7ff',
+                            100: '#ebefff',
+                            200: '#d6dfff',
+                            300: '#b3c3ff',
+                            400: '#8c9eff',
+                            500: '#667eea',
+                            600: '#5568d3',
+                            700: '#4553b8',
+                            800: '#364194',
+                            900: '#2a3475',
+                        },
+                        secondary: {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            300: '#d8b4fe',
+                            400: '#c084fc',
+                            500: '#764ba2',
+                            600: '#6d3f94',
+                            700: '#5e3380',
+                            800: '#4e2a6a',
+                            900: '#3f2256',
+                        },
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+    
+    <!-- Skip to main content for accessibility -->
+    <a href="#home" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-1/2 focus:-translate-x-1/2 focus:z-50 focus:px-6 focus:py-3 focus:bg-primary-600 focus:text-white focus:rounded-full focus:shadow-lg">Skip to main content</a>
+    
+    <!-- Navigation - Glassmorphism -->
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/70 dark:bg-slate-900/70 border-b border-white/20 dark:border-slate-700/50 shadow-lg transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <h2 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                        Gentiana Loki
+                    </h2>
+                </div>
+                
+                <!-- Desktop Navigation Links -->
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="#home" class="nav-link active text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative">Home</a></li>
+                    <li><a href="#about" class="nav-link text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative">About</a></li>
+                    <li><a href="#experience" class="nav-link text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative">Experience</a></li>
+                    <li><a href="#education" class="nav-link text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative">Education</a></li>
+                    <li><a href="#contact" class="nav-link text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative">Contact</a></li>
+                </ul>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button id="languageToggle" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center hover:scale-110 transition-transform shadow-lg" aria-label="Switch to German">
+                        <span class="lang-text">DE</span>
+                    </button>
+                    <button id="themeToggle" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white flex items-center justify-center hover:scale-110 hover:rotate-12 transition-all shadow-lg" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon text-xs sm:text-sm"></i>
+                    </button>
+                    <button id="hamburger" class="md:hidden w-10 h-10 flex flex-col items-center justify-center space-y-1.5" aria-label="Toggle mobile menu" aria-controls="mobileMenu" aria-expanded="false">
+                        <span class="w-6 h-0.5 bg-slate-700 dark:bg-slate-200 transition-all"></span>
+                        <span class="w-6 h-0.5 bg-slate-700 dark:bg-slate-200 transition-all"></span>
+                        <span class="w-6 h-0.5 bg-slate-700 dark:bg-slate-200 transition-all"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="md:hidden fixed top-16 sm:top-20 left-0 w-full h-screen bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl transform -translate-x-full transition-transform duration-300 shadow-2xl" id="mobileMenu">
+            <ul class="flex flex-col items-center space-y-6 pt-12 px-6">
+                <li><a href="#home" class="nav-link text-xl text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Home</a></li>
+                <li><a href="#about" class="nav-link text-xl text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">About</a></li>
+                <li><a href="#experience" class="nav-link text-xl text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Experience</a></li>
+                <li><a href="#education" class="nav-link text-xl text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Education</a></li>
+                <li><a href="#contact" class="nav-link text-xl text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <!-- Decorative background blobs -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary-300/20 dark:bg-primary-600/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary-300/20 dark:bg-secondary-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto w-full relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Hero Text -->
+                <div class="text-center md:text-left space-y-6">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                        Hello, I'm <span class="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Gentiana Loki</span>
+                    </h1>
+                    <h2 class="typing-text text-2xl sm:text-3xl lg:text-4xl text-slate-600 dark:text-slate-300 font-medium min-h-[2.5rem] sm:min-h-[3rem]"></h2>
+                    <p class="hero-description text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                        Motivated professional with experience in customer service, administration and finance. 
+                        Strong organizational skills, communication skills and intercultural competence.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#education" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-semibold rounded-full hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                            View Education
+                        </a>
+                        <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 backdrop-blur-lg bg-white/30 dark:bg-slate-800/30 border-2 border-white/20 dark:border-slate-700/50 text-primary-600 dark:text-primary-400 font-semibold rounded-full hover:bg-white/50 dark:hover:bg-slate-800/50 hover:-translate-y-1 transition-all duration-300">
+                            Get In Touch
+                        </a>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="flex gap-4 justify-center md:justify-start">
+                        <a href="mailto:gentianaloki88@gmail.com" class="w-12 h-12 backdrop-blur-lg bg-white/30 dark:bg-slate-800/30 border border-white/20 dark:border-slate-700/50 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-600 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-lg" aria-label="Send email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+41764218288" class="w-12 h-12 backdrop-blur-lg bg-white/30 dark:bg-slate-800/30 border border-white/20 dark:border-slate-700/50 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-600 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-lg" aria-label="Call phone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <a href="https://ch.linkedin.com/in/gentiana-loki-990859325" target="_blank" rel="noopener noreferrer" class="w-12 h-12 backdrop-blur-lg bg-white/30 dark:bg-slate-800/30 border border-white/20 dark:border-slate-700/50 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-600 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-lg" aria-label="LinkedIn profile">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#contact" class="w-12 h-12 backdrop-blur-lg bg-white/30 dark:bg-slate-800/30 border border-white/20 dark:border-slate-700/50 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-600 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-lg" aria-label="Contact information">
+                            <i class="fas fa-address-card"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hero Visual -->
+                <div class="flex justify-center items-center order-first md:order-last">
+                    <div class="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                        <div class="hero-shape absolute inset-0 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full opacity-80 animate-blob shadow-2xl"></div>
+                        <div class="hero-shape absolute inset-0 bg-gradient-to-r from-secondary-600 to-primary-600 rounded-full opacity-50 animate-blob animation-delay-2000 shadow-2xl"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <div class="w-6 h-10 border-2 border-primary-600 dark:border-primary-400 rounded-full flex justify-center">
+                    <div class="w-1 h-2 bg-primary-600 dark:bg-primary-400 rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Stats -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative inline-block">
+                    About Me
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full"></span>
+                </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mt-6">Get to know me better</p>
+            </div>
+            
+            <!-- Professional Profile & Skills Grid -->
+            <div class="grid lg:grid-cols-2 gap-12 mb-16">
+                <!-- Professional Profile -->
+                <div class="space-y-6">
+                    <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-slate-100">Professional Profile</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                            Motivated professional with experience in customer service, administration and finance. 
+                            Strong organizational skills, communication skills and intercultural competence.
+                        </p>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Goal is to promote customer satisfaction in the position as Junior Customer Advisor, 
+                            maintain customer relationships and actively contribute to the success of the company.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Skills -->
+                <div class="space-y-6">
+                    <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-slate-100">Key Skills & Competencies</h3>
+                        
+                        <!-- Skill 1 -->
+                        <div class="skill mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-medium">Customer Service & Communication</span>
+                                <span class="skill-percentage text-primary-600 dark:text-primary-400 font-semibold">95%</span>
+                            </div>
+                            <div class="skill-bar h-3 bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+                                <div class="skill-progress h-full bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full transition-all duration-1000 ease-out" data-progress="95" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill 2 -->
+                        <div class="skill mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-medium">Organization & Administration</span>
+                                <span class="skill-percentage text-primary-600 dark:text-primary-400 font-semibold">90%</span>
+                            </div>
+                            <div class="skill-bar h-3 bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+                                <div class="skill-progress h-full bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full transition-all duration-1000 ease-out" data-progress="90" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill 3 -->
+                        <div class="skill mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-medium">Finance & Budget Management</span>
+                                <span class="skill-percentage text-primary-600 dark:text-primary-400 font-semibold">88%</span>
+                            </div>
+                            <div class="skill-bar h-3 bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+                                <div class="skill-progress h-full bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full transition-all duration-1000 ease-out" data-progress="88" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill 4 -->
+                        <div class="skill mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-medium">MS Office (Word, Excel, PowerPoint)</span>
+                                <span class="skill-percentage text-primary-600 dark:text-primary-400 font-semibold">85%</span>
+                            </div>
+                            <div class="skill-bar h-3 bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+                                <div class="skill-progress h-full bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full transition-all duration-1000 ease-out" data-progress="85" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill 5 -->
+                        <div class="skill mb-0">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-medium">Intercultural Competence</span>
+                                <span class="skill-percentage text-primary-600 dark:text-primary-400 font-semibold">92%</span>
+                            </div>
+                            <div class="skill-bar h-3 bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+                                <div class="skill-progress h-full bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full transition-all duration-1000 ease-out" data-progress="92" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Cards - Glass Tiles -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Stat 1 -->
+                <div class="stat backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 text-center hover:-translate-y-2 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                    <h4 class="text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-3">10+</h4>
+                    <p class="text-slate-600 dark:text-slate-300 font-medium">Years Experience</p>
+                </div>
+                
+                <!-- Stat 2 -->
+                <div class="stat backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 text-center hover:-translate-y-2 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                    <h4 class="text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-3">Master</h4>
+                    <p class="text-slate-600 dark:text-slate-300 font-medium">Banking & Finance</p>
+                </div>
+                
+                <!-- Stat 3 -->
+                <div class="stat backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 text-center hover:-translate-y-2 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                    <h4 class="text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-3">3+</h4>
+                    <p class="text-slate-600 dark:text-slate-300 font-medium">Languages</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-100/50 dark:bg-slate-800/20">
+        <div class="max-w-5xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative inline-block">
+                    Experience
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full"></span>
+                </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mt-6">My professional journey</p>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary-600 to-secondary-600 hidden md:block"></div>
+                
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item relative mb-12 md:mb-16">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <!-- Content (Right side on desktop) -->
+                        <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                            <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <div class="text-primary-600 dark:text-primary-400 font-semibold mb-2">October 2012 - July 2015</div>
+                                <h3 class="text-xl font-bold mb-2">Liaison and Executive Officer</h3>
+                                <h4 class="text-slate-600 dark:text-slate-300 mb-3">Kosovo Justice Academy, Prishtina, Kosovo</h4>
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Organized appointments and correspondence for the Director. Planned and conducted meetings, 
+                                    events and external meetings. Interface to partner organizations (e.g. UN Women, USAID, GIZ). 
+                                    From May 2013: Expenditure Officer - budget monitoring, expense verification, documentation.
+                                </p>
+                                <div class="flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Administration</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Finance</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Events</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dot -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary-600 border-4 border-white dark:border-slate-900 rounded-full z-10 hidden md:block"></div>
+                        <div class="w-full md:w-1/2 order-1 md:order-2"></div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item relative mb-12 md:mb-16">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 order-1"></div>
+                        <!-- Dot -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary-600 border-4 border-white dark:border-slate-900 rounded-full z-10 hidden md:block"></div>
+                        <!-- Content (Left side on desktop) -->
+                        <div class="w-full md:w-1/2 md:pl-12 order-2">
+                            <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <div class="text-primary-600 dark:text-primary-400 font-semibold mb-2">July 2011 - September 2012</div>
+                                <h3 class="text-xl font-bold mb-2">Executive Assistant</h3>
+                                <h4 class="text-slate-600 dark:text-slate-300 mb-3">Kosovo Justice Academy, Prishtina, Kosovo</h4>
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Support with communication measures and press relations. Preparation of reports, 
+                                    briefings and documents. Participation in meetings with local and international stakeholders.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Communication</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Documentation</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Stakeholder Relations</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item relative mb-12 md:mb-16">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                            <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <div class="text-primary-600 dark:text-primary-400 font-semibold mb-2">September 2009 - February 2011</div>
+                                <h3 class="text-xl font-bold mb-2">Sales Assistant</h3>
+                                <h4 class="text-slate-600 dark:text-slate-300 mb-3">Mango/Ardi Co, Prishtina, Kosovo</h4>
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Customer advice and active sales. Design and replenishment of the sales area. 
+                                    Product presentation and customer service.
+                                </p>
+                                <div class="flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Customer Service</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Sales</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Retail</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary-600 border-4 border-white dark:border-slate-900 rounded-full z-10 hidden md:block"></div>
+                        <div class="w-full md:w-1/2 order-1 md:order-2"></div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 4 -->
+                <div class="timeline-item relative">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 order-1"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary-600 border-4 border-white dark:border-slate-900 rounded-full z-10 hidden md:block"></div>
+                        <div class="w-full md:w-1/2 md:pl-12 order-2">
+                            <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <div class="text-primary-600 dark:text-primary-400 font-semibold mb-2">January 2008 - September 2008</div>
+                                <h3 class="text-xl font-bold mb-2">Office Assistant</h3>
+                                <h4 class="text-slate-600 dark:text-slate-300 mb-3">Lila/Lila Commerce, Suhareka, Kosovo</h4>
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Reception of visitors, telephone reception. General secretarial tasks, 
+                                    filing and correspondence.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Office Management</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Reception</span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-primary-600 to-secondary-600 text-white text-xs rounded-full">Administration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Qualifications Section -->
+    <section id="education" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative inline-block">
+                    Education & Qualifications
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full"></span>
+                </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mt-6">Academic background and certifications</p>
+            </div>
+            
+            <!-- Education Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 - Master's Degree -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-graduation-cap text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Master of Arts</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
+                            Banking, Finance and Accounting - Fama University, Prishtina, Kosovo (October 2011 - December 2021)
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 italic mb-4">
+                            Note: Studies were paused due to marriage and relocation from Kosovo to Germany, resuming after settling in the new country.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Banking</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Finance</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Accounting</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 - Bachelor's Degree -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-graduation-cap text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Bachelor of Arts</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Banking, Finance and Accounting - Fama University, Prishtina, Kosovo (October 2006 - April 2010)
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Banking</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Finance</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Accounting</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 - German Language -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-certificate text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">German Language - TELC</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Certificates A1 through B2. Fluent in German, demonstrating strong communication abilities.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">German A1-B2</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">TELC Certified</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 4 - English Language -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-certificate text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">English Language</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Pre-Intermediate English - New Age School, Prishtina. Fluent in English for professional communication.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">English</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Pre-Intermediate</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 5 - Expenditure Officer Training -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-certificate text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Expenditure Officer Training</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Financial sector training from the Ministry of Finance, Prishtina. Specialized in budget monitoring and expense management.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Finance</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Budget Management</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 6 - High School -->
+                <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <i class="fas fa-school text-white text-6xl relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">High School Diploma (Matura)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Secondary education completed at Jeta e Re, Suhareka, Kosovo (September 2003 - August 2006)
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Secondary Education</span>
+                            <span class="px-3 py-1 bg-slate-200/50 dark:bg-slate-700/50 text-primary-600 dark:text-primary-400 text-xs rounded-full backdrop-blur-sm">Completed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-100/50 dark:bg-slate-800/20">
+        <div class="max-w-4xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative inline-block">
+                    Get In Touch
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full"></span>
+                </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mt-6">Let's work together</p>
+            </div>
+            
+            <!-- Contact Info Card -->
+            <div class="backdrop-blur-xl bg-white/40 dark:bg-slate-800/40 border border-white/20 dark:border-slate-700/50 rounded-3xl p-8 sm:p-12 shadow-xl text-center">
+                <h3 class="text-2xl font-bold mb-6">Let's talk about opportunities</h3>
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    I'm open to discussing new opportunities, collaborations, 
+                    and how I can contribute my skills to your organization.
+                </p>
+                
+                <!-- Contact Details -->
+                <div class="space-y-8">
+                    <!-- Email -->
+                    <div class="flex items-start gap-6 max-w-xl mx-auto">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <h4 class="font-semibold text-lg mb-1">Email</h4>
+                            <p class="text-slate-600 dark:text-slate-300">
+                                <a href="mailto:gentianaloki88@gmail.com" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">gentianaloki88@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div class="flex items-start gap-6 max-w-xl mx-auto">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-phone text-xl"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <h4 class="font-semibold text-lg mb-1">Phone</h4>
+                            <p class="text-slate-600 dark:text-slate-300">
+                                <a href="tel:+41764218288" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">+41 76 421 8288</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="flex items-start gap-6 max-w-xl mx-auto">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-map-marker-alt text-xl"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <h4 class="font-semibold text-lg mb-1">Location</h4>
+                            <p class="text-slate-600 dark:text-slate-300">Winkelriedstrasse 2, 5430 Wettingen, Aargau, Switzerland</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="backdrop-blur-lg bg-white/70 dark:bg-slate-900/70 border-t border-white/20 dark:border-slate-700/50 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-slate-600 dark:text-slate-300">&copy; 2026 Gentiana Loki. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#contact" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
