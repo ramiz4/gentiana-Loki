@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@config "./tailwind.config.js";
+
 /* ========================================
    Minimal Custom Styles for Glassmorphism
    Most styling is handled by Tailwind CSS

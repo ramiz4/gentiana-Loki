@@ -26,20 +26,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
       - name: Build site
         run: |
           echo "Building static site..."
+          pnpm run build
+
           mkdir -p _site
-          # Copy the main website files from root directory
-          for file in index.html styles.css script.js; do
-            if [ -f "$file" ]; then
-              cp "$file" _site/
-              echo "✓ Copied $file"
-            else
-              echo "✗ Error: Required file $file not found"
-              exit 1
-            fi
-          done
+          # Copy the main website files
+          cp index.html _site/
+          cp styles.css _site/
+          cp script.js _site/
+          cp favicon.svg _site/
+
+          echo "✓ Copied index.html"
+          echo "✓ Copied compiled styles.css"
+          echo "✓ Copied script.js"
+          echo "✓ Copied favicon.svg"
+
           # Copy PDF if it exists
           if [ -f cv-de-gentiana-loki-2026.pdf ]; then
             cp cv-de-gentiana-loki-2026.pdf _site/
