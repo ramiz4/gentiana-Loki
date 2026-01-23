@@ -15,6 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Main job that handles all PR preview operations
   pr-preview:
     runs-on: ubuntu-latest
     if: github.event.pull_request.head.repo.full_name == github.repository
@@ -24,8 +25,24 @@ jobs:
       - name: Build site
         if: github.event.action != 'closed'
         run: |
+          echo "Building static site..."
           mkdir -p _site
-          cp index.html script.js styles.css cv-*.pdf _site/ 2>/dev/null || true
+          # Copy the main website files from root directory
+          for file in index.html styles.css script.js; do
+            if [ -f "$file" ]; then
+              cp "$file" _site/
+              echo "✓ Copied $file"
+            else
+              echo "✗ Error: Required file $file not found"
+              exit 1
+            fi
+          done
+          # Copy PDF if it exists
+          if [ -f cv-de-gentiana-loki-2026.pdf ]; then
+            cp cv-de-gentiana-loki-2026.pdf _site/
+            echo "✓ Copied PDF file"
+          fi
+          echo "Build completed successfully"
 
       - name: Deploy Preview
         if: github.event.action != 'closed'
@@ -57,16 +74,46 @@ jobs:
               await github.rest.issues.createComment({ ...context.repo, issue_number: pr, body });
             }
 
+      - name: Prepare Cleanup
+        if: github.event.action == 'closed'
+        run: mkdir -p _empty_cleanup
+
       - name: Cleanup PR Preview
         if: github.event.action == 'closed'
-        run: |
-          PR_DIR="pr-${{ github.event.pull_request.number }}"
-          git fetch origin gh-pages 2>/dev/null || exit 0
-          git checkout gh-pages 2>/dev/null || exit 0
-          if [ -d "$PR_DIR" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git rm -rf "$PR_DIR"
-            git commit -m "Cleanup preview for PR #${{ github.event.pull_request.number }}"
-            git push origin gh-pages
-          fi
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_empty_cleanup
+          destination_dir: pr-${{ github.event.pull_request.number }}
+          keep_files: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Cleanup preview for PR #${{ github.event.pull_request.number }}"
+
+  # Notification job for PRs from forks where previews are disabled
+  fork-notification:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name != github.repository && github.event.action != 'closed'
+    steps:
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request.number;
+            const body = `## ⚠️ Preview Deployment Skip\n\nPreview deployments are disabled for PRs from forked repositories for security reasons. To see a preview, please branch directly within the main repository if you have permissions, or wait for a maintainer to review and test your changes.`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: pr,
+              per_page: 100
+            });
+
+            const botComment = comments.find(c => c.user?.type === 'Bot' && c.body?.includes('Preview Deployment Skip'));
+
+            if (!botComment) {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: pr,
+                body
+              });
+            }
