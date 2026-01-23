@@ -15,9 +15,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Notify for forked PRs (cannot deploy due to permissions)
+  notify-fork:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on forked PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const commentBody = `## ℹ️ Preview Deployment Unavailable
+            
+            PR previews are not available for pull requests from forked repositories due to GitHub security restrictions.
+            
+            _Maintainers can test this PR by checking out the branch locally._`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });
+
   # Deploy preview for opened/updated PRs
   deploy-preview:
-    if: github.event.action != 'closed'
+    # Skip for forked PRs (GITHUB_TOKEN is read-only for forks)
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR code
@@ -26,23 +50,18 @@ jobs:
       - name: Prepare site files for deployment
         run: |
           echo "Preparing static site files..."
-          mkdir -p _preview
-          # Copy the main website files
-          for file in index.html styles.css script.js cv-de-gentiana-loki-2026.pdf; do
-            if [ -f "$file" ]; then
-              cp "$file" _preview/
-              echo "✓ Copied $file"
-            else
-              echo "⚠ Warning: $file not found, skipping"
-            fi
-          done
-          echo "Preparation completed"
+          mkdir -p _site
+          # Copy the main website files (matching production build)
+          cp index.html _site/
+          cp styles.css _site/
+          cp script.js _site/
+          echo "✓ Site files prepared for deployment"
 
       - name: Deploy to GitHub Pages (PR subdirectory)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _preview
+          publish_dir: _site
           destination_dir: pr-${{ github.event.pull_request.number }}
           keep_files: true  # Preserve existing content (production + other PRs)
 
@@ -62,17 +81,36 @@ jobs:
             
             _This preview will be automatically updated on new commits and removed when the PR is closed._`;
             
-            // Find existing bot comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
+            // Find existing bot comment (paginate to avoid duplicates on large PRs)
+            let botComment = null;
+            let page = 1;
             
-            const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes('Preview Deployment')
-            );
+            while (!botComment) {
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                per_page: 100,
+                page,
+              });
+              
+              if (!comments.length) {
+                break;
+              }
+              
+              botComment = comments.find(comment =>
+                comment.user &&
+                comment.user.type === 'Bot' &&
+                typeof comment.body === 'string' &&
+                comment.body.includes('Preview Deployment')
+              );
+              
+              if (botComment || comments.length < 100) {
+                break;
+              }
+              
+              page += 1;
+            }
             
             // Update existing comment or create new one
             if (botComment) {
@@ -95,7 +133,8 @@ jobs:
 
   # Clean up preview when PR is closed
   cleanup-preview:
-    if: github.event.action == 'closed'
+    # Skip for forked PRs (GITHUB_TOKEN is read-only for forks)
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages branch
