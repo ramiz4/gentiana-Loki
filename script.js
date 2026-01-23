@@ -486,17 +486,37 @@ const navLinks = document.querySelector('.nav-links');
 if (!hamburger || !navLinks) {
     console.error('Mobile navigation elements not found');
 } else {
-    hamburger.addEventListener('click', () => {
+    // Function to update mobile menu position based on navbar height
+    function updateMobileMenuPosition() {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            const navbarHeight = navbar.offsetHeight;
+            navLinks.style.top = `${navbarHeight}px`;
+            navLinks.style.height = `calc(100vh - ${navbarHeight}px)`;
+        }
+    }
+
+    // Toggle menu function
+    function toggleMenu() {
+        // Check if we're about to open the menu
+        const isOpening = !navLinks.classList.contains('active');
+        
+        // Update menu position before adding 'active' class to avoid diagonal slide
+        if (isOpening) {
+            updateMobileMenuPosition();
+        }
+        
         navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');
-    });
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
 
     // Add keyboard accessibility for hamburger menu
     hamburger.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            toggleMenu();
         }
     });
 
