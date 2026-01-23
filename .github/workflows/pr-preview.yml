@@ -23,14 +23,28 @@ jobs:
       - name: Checkout PR code
         uses: actions/checkout@v4
 
+      - name: Prepare site files for deployment
+        run: |
+          echo "Preparing static site files..."
+          mkdir -p _preview
+          # Copy the main website files
+          for file in index.html styles.css script.js cv-de-gentiana-loki-2026.pdf; do
+            if [ -f "$file" ]; then
+              cp "$file" _preview/
+              echo "✓ Copied $file"
+            else
+              echo "⚠ Warning: $file not found, skipping"
+            fi
+          done
+          echo "Preparation completed"
+
       - name: Deploy to GitHub Pages (PR subdirectory)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: _preview
           destination_dir: pr-${{ github.event.pull_request.number }}
           keep_files: true  # Preserve existing content (production + other PRs)
-          exclude_assets: '.github'
 
       - name: Comment PR with preview URL
         uses: actions/github-script@v7
