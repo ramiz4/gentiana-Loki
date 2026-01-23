@@ -17,6 +17,24 @@ My personal portfolio and resume website.
 
 Feel free to use this template for your personal portfolio!
 
+## 🛠️ Local Development
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   # or npm install
+   ```
+2. Run the development server (Tailwind watcher):
+   ```bash
+   pnpm dev
+   # or npm run dev
+   ```
+3. Build for production:
+   ```bash
+   pnpm build
+   # or npm run build
+   ```
+
 ## 🤝 Contributing
 
 This is a personal portfolio template. Feel free to fork and customize for your own use.
