@@ -39,14 +39,21 @@ Both production and PR preview deployments use the `peaceiris/actions-gh-pages@v
 - PR previews in subdirectories (`pr-1/`, `pr-2/`, etc.)
 - Multiple deployments without conflicts (using `keep_files: true`)
 
+**Note on `keep_files: true`**: This setting preserves all files on the `gh-pages` branch, including PR preview directories. While this means renamed/deleted production files won't be automatically removed (and the branch may grow over time), it's a reasonable tradeoff for supporting PR previews. Periodic manual cleanup of the `gh-pages` branch can be performed if needed.
+
+## Security Considerations
+
+The workflows use `peaceiris/actions-gh-pages@v4` pinned to the `v4` tag. For enhanced security, consider pinning to a specific commit SHA instead of a mutable tag to protect against supply chain attacks. However, this makes maintenance more difficult as you'll need to manually update the SHA for security patches and features.
+
 ## Troubleshooting
 
 ### 404 Errors on PR Preview Links
 
 If PR preview links show 404 errors, verify:
-1. GitHub Pages is configured to use the `gh-pages` branch (see above)
+1. **GitHub Pages is configured to use the `gh-pages` branch** (see configuration steps above) - this is the most common cause of 404 errors
 2. The `gh-pages` branch exists and has content
 3. GitHub Pages is enabled for the repository
+4. Wait a few minutes after the workflow completes for GitHub Pages to rebuild and serve the new content
 
 ### Check Deployment Status
 
@@ -75,6 +82,6 @@ gh-pages branch structure:
 
 ## Permissions
 
-Both workflows require:
-- `contents: write` - To push to the `gh-pages` branch
-- `pull-requests: write` - To post comments with preview URLs (PR preview only)
+Workflow permissions:
+- `contents: write` - Required for both workflows to push to the `gh-pages` branch
+- `pull-requests: write` - Required only for the PR preview workflow to post comments with preview URLs
