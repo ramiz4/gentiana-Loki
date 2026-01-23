@@ -16,20 +16,20 @@ concurrency:
 
 jobs:
   # Main job that handles all PR preview operations
-  pr-preview:
+  preview:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v4
 
+      # PREVIEW LOGIC (Runs only for local branches)
       - name: Setup Node.js
-        if: github.event.action != 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action != 'closed'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Build site
-        if: github.event.action != 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action != 'closed'
         run: |
           echo "Building static site..."
           # Install Tailwind CSS
@@ -58,7 +58,7 @@ jobs:
           echo "Build completed successfully"
 
       - name: Deploy Preview
-        if: github.event.action != 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action != 'closed'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
           commit_message: "Deploy preview for PR #${{ github.event.pull_request.number }}"
 
       - name: Comment PR
-        if: github.event.action != 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action != 'closed'
         uses: actions/github-script@v7
         with:
           script: |
@@ -87,12 +87,13 @@ jobs:
               await github.rest.issues.createComment({ ...context.repo, issue_number: pr, body });
             }
 
+      # CLEANUP LOGIC (Runs only for local branches on closing)
       - name: Prepare Cleanup
-        if: github.event.action == 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action == 'closed'
         run: mkdir -p _empty_cleanup
 
       - name: Cleanup PR Preview
-        if: github.event.action == 'closed'
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.action == 'closed'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -103,30 +104,17 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: "Cleanup preview for PR #${{ github.event.pull_request.number }}"
 
-  # Notification job for PRs from forks where previews are disabled
-  fork-notification:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name != github.repository && github.event.action != 'closed'
-    steps:
-      - name: Comment PR
+      # FORK NOTIFICATION (Runs only for forks)
+      - name: Comment PR Fork Error
+        if: github.event.pull_request.head.repo.full_name != github.repository && github.event.action != 'closed'
         uses: actions/github-script@v7
         with:
           script: |
             const pr = context.payload.pull_request.number;
-            const body = `## ⚠️ Preview Deployment Skip\n\nPreview deployments are disabled for PRs from forked repositories for security reasons. To see a preview, please branch directly within the main repository if you have permissions, or wait for a maintainer to review and test your changes.`;
+            const body = `## ⚠️ Preview Deployment Skip\n\nPreview deployments are disabled for PRs from forked repositories for security reasons. To see a preview, please branch directly within the main repository if you have permissions.`;
 
-            const { data: comments } = await github.rest.issues.listComments({
-              ...context.repo,
-              issue_number: pr,
-              per_page: 100
-            });
-
+            const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: pr, per_page: 100 });
             const botComment = comments.find(c => c.user?.type === 'Bot' && c.body?.includes('Preview Deployment Skip'));
 
             if (!botComment) {
-              await github.rest.issues.createComment({
-                ...context.repo,
-                issue_number: pr,
-                body
-              });
-            }
+              await github.rest.issues.createComment({ ...context.repo, issue_number: pr, body });
