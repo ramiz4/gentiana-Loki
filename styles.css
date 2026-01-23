@@ -5,130 +5,143 @@
 
 /* Smooth scrolling */
 html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 /* Skip to main content link (accessibility) */
 .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Custom animations for hero blob */
 @keyframes blob {
-    0%, 100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        transform: scale(1) rotate(0deg);
-    }
-    25% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-        transform: scale(1.05) rotate(90deg);
-    }
-    50% {
-        border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-        transform: scale(1.1) rotate(180deg);
-    }
-    75% {
-        border-radius: 70% 30% 50% 50% / 30% 50% 50% 60%;
-        transform: scale(1.05) rotate(270deg);
-    }
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: scale(1.05) rotate(90deg);
+  }
+  50% {
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    transform: scale(1.1) rotate(180deg);
+  }
+  75% {
+    border-radius: 70% 30% 50% 50% / 30% 50% 50% 60%;
+    transform: scale(1.05) rotate(270deg);
+  }
 }
 
 .animate-blob {
-    animation: blob 10s ease-in-out infinite;
+  animation: blob 10s ease-in-out infinite;
 }
 
 .animation-delay-2000 {
-    animation-delay: 2s;
+  animation-delay: 2s;
 }
 
 /* Custom focus styles for better accessibility */
 *:focus-visible {
-    outline: 3px solid rgba(102, 126, 234, 0.5);
-    outline-offset: 2px;
+  outline: 3px solid rgba(102, 126, 234, 0.5);
+  outline-offset: 2px;
 }
 
 /* Subtle background pattern (optional - very light) */
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.03;
-    background-image: 
-        radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 40% 90%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
-    pointer-events: none;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.03;
+  background-image:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(102, 126, 234, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(118, 75, 162, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 90%,
+      rgba(102, 126, 234, 0.1) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
 }
 
 /* Dark mode adjustments */
 .dark body::before {
-    opacity: 0.05;
+  opacity: 0.05;
 }
 
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-    
-    .animate-blob {
-        animation: none;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-blob {
+    animation: none;
+  }
 }
 
 /* Ensure smooth transitions */
 * {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Custom scrollbar for webkit browsers (optional enhancement) */
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(241, 245, 249, 0.5);
+  background: rgba(241, 245, 249, 0.5);
 }
 
 .dark ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(102, 126, 234, 0.5);
-    border-radius: 5px;
+  background: rgba(102, 126, 234, 0.5);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(102, 126, 234, 0.7);
+  background: rgba(102, 126, 234, 0.7);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-    background: rgba(102, 126, 234, 0.3);
+  background: rgba(102, 126, 234, 0.3);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-    background: rgba(102, 126, 234, 0.5);
+  background: rgba(102, 126, 234, 0.5);
 }
