@@ -1,132 +1,7 @@
 'use strict';
 
 // ========================================
-// Typing Animation for Hero Section
-// ========================================
-const texts = [
-    'Customer Service Professional',
-    'Administration Specialist', 
-    'Finance & Budget Expert',
-    'Multilingual Communicator'
-];
-let textIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-let typingSpeed = 100;
-
-function typeText() {
-    const typingElement = document.querySelector('.typing-text');
-    if (!typingElement) return;
-    
-    const currentText = texts[textIndex];
-    
-    if (isDeleting) {
-        typingElement.textContent = currentText.substring(0, charIndex - 1);
-        charIndex--;
-        typingSpeed = 50;
-    } else {
-        typingElement.textContent = currentText.substring(0, charIndex + 1);
-        charIndex++;
-        typingSpeed = 100;
-    }
-    
-    if (!isDeleting && charIndex === currentText.length) {
-        isDeleting = true;
-        typingSpeed = 2000;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % texts.length;
-        typingSpeed = 500;
-    }
-    
-    setTimeout(typeText, typingSpeed);
-}
-
-// Start typing animation when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize language content
-    const currentLang = localStorage.getItem('language') || 'en';
-    updateContent(currentLang);
-    
-    // Start typing animation
-    typeText();
-});
-
-// ========================================
-// Mobile Menu Toggle
-// ========================================
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-const navLinks = document.querySelectorAll('.nav-link');
-
-if (hamburger && mobileMenu) {
-    // Ensure mobile menu is initially closed
-    mobileMenu.classList.add('-translate-x-full');
-    hamburger.setAttribute('aria-expanded', 'false');
-    
-    hamburger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        mobileMenu.classList.toggle('-translate-x-full');
-        hamburger.setAttribute('aria-expanded', !mobileMenu.classList.contains('-translate-x-full'));
-    });
-    
-    // Close mobile menu when clicking nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.add('-translate-x-full');
-            hamburger.setAttribute('aria-expanded', 'false');
-        });
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        const isMenuOpen = !mobileMenu.classList.contains('-translate-x-full');
-        const isClickInsideMenu = mobileMenu.contains(e.target);
-        const isClickOnHamburger = hamburger.contains(e.target);
-        
-        if (isMenuOpen && !isClickInsideMenu && !isClickOnHamburger) {
-            mobileMenu.classList.add('-translate-x-full');
-            hamburger.setAttribute('aria-expanded', 'false');
-        }
-    });
-}
-
-// ========================================
-// Dark Mode Toggle
-// ========================================
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-
-// Check for saved theme preference or default to light mode
-const currentTheme = localStorage.getItem('theme') || 'light';
-if (currentTheme === 'dark') {
-    html.classList.add('dark');
-    if (themeToggle) {
-        const icon = themeToggle.querySelector('i');
-        if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-        themeToggle.setAttribute('aria-label', 'Toggle light mode');
-    }
-}
-
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        const icon = themeToggle.querySelector('i');
-        
-        if (html.classList.contains('dark')) {
-            localStorage.setItem('theme', 'dark');
-            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-            themeToggle.setAttribute('aria-label', 'Toggle light mode');
-        } else {
-            localStorage.setItem('theme', 'light');
-            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
-            themeToggle.setAttribute('aria-label', 'Toggle dark mode');
-        }
-    });
-}
-
-// ========================================
-// Language Toggle with Translations
+// Language Translations
 // ========================================
 const translations = {
     en: {
@@ -139,7 +14,6 @@ const translations = {
         
         // Hero Section
         'hero.greeting': "Hello, I'm",
-        'hero.name': 'Gentiana Loki',
         'hero.typing.1': 'Customer Service Professional',
         'hero.typing.2': 'Administration Specialist',
         'hero.typing.3': 'Finance & Budget Expert',
@@ -260,7 +134,6 @@ const translations = {
         
         // Hero Section
         'hero.greeting': 'Hallo, ich bin',
-        'hero.name': 'Gentiana Loki',
         'hero.typing.1': 'Kundenservice-Profi',
         'hero.typing.2': 'Verwaltungsspezialistin',
         'hero.typing.3': 'Finanz- & Budgetexpertin',
@@ -405,6 +278,134 @@ function updateContent(lang) {
     document.documentElement.setAttribute('lang', lang);
 }
 
+// ========================================
+// Typing Animation for Hero Section
+// ========================================
+const texts = [
+    'Customer Service Professional',
+    'Administration Specialist', 
+    'Finance & Budget Expert',
+    'Multilingual Communicator'
+];
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingSpeed = 100;
+
+function typeText() {
+    const typingElement = document.querySelector('.typing-text');
+    if (!typingElement) return;
+    
+    const currentText = texts[textIndex];
+    
+    if (isDeleting) {
+        typingElement.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = 50;
+    } else {
+        typingElement.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 100;
+    }
+    
+    if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        typingSpeed = 2000;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        typingSpeed = 500;
+    }
+    
+    setTimeout(typeText, typingSpeed);
+}
+
+// Start typing animation when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize language content
+    const currentLang = localStorage.getItem('language') || 'en';
+    updateContent(currentLang);
+    
+    // Start typing animation
+    typeText();
+});
+
+// ========================================
+// Mobile Menu Toggle
+// ========================================
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+if (hamburger && mobileMenu) {
+    // Ensure mobile menu is initially closed
+    mobileMenu.classList.add('-translate-x-full');
+    hamburger.setAttribute('aria-expanded', 'false');
+    
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('-translate-x-full');
+        hamburger.setAttribute('aria-expanded', !mobileMenu.classList.contains('-translate-x-full'));
+    });
+    
+    // Close mobile menu when clicking nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('-translate-x-full');
+            hamburger.setAttribute('aria-expanded', 'false');
+        });
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const isMenuOpen = !mobileMenu.classList.contains('-translate-x-full');
+        const isClickInsideMenu = mobileMenu.contains(e.target);
+        const isClickOnHamburger = hamburger.contains(e.target);
+        
+        if (isMenuOpen && !isClickInsideMenu && !isClickOnHamburger) {
+            mobileMenu.classList.add('-translate-x-full');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+// ========================================
+// Dark Mode Toggle
+// ========================================
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+
+// Check for saved theme preference or default to light mode
+const currentTheme = localStorage.getItem('theme') || 'light';
+if (currentTheme === 'dark') {
+    html.classList.add('dark');
+    if (themeToggle) {
+        const icon = themeToggle.querySelector('i');
+        if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+        themeToggle.setAttribute('aria-label', 'Toggle light mode');
+    }
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        const icon = themeToggle.querySelector('i');
+        
+        if (html.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+            themeToggle.setAttribute('aria-label', 'Toggle light mode');
+        } else {
+            localStorage.setItem('theme', 'light');
+            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
+            themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+        }
+    });
+}
+
+// ========================================
+// Language Toggle
+// ========================================
 const languageToggle = document.getElementById('languageToggle');
 let currentLanguage = localStorage.getItem('language') || 'en';
 
