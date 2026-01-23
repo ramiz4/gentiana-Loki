@@ -10,7 +10,7 @@ This repository uses GitHub Pages to host the portfolio website with support for
 - **Workflow**: `.github/workflows/deploy-pages.yml`
 - **Trigger**: Push to `main` branch or manual dispatch
 - **Target**: Root of GitHub Pages site (`https://ramiz4.github.io/gentiana-loki/`)
-- **Method**: Deploys to `gh-pages` branch using `peaceiris/actions-gh-pages@v4`
+- **Method**: Deploys to `gh-pages` branch using `peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e` (v4.0.0)
 
 ### PR Preview Deployment
 - **Workflow**: `.github/workflows/pr-preview.yml`
