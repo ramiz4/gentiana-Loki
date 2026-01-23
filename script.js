@@ -671,7 +671,7 @@ window.addEventListener('scroll', () => {
             navbar.style.background = 'rgba(45, 55, 72, 0.95)';
         }
     } else {
-        navbar.style.padding = '1rem 0';
+        navbar.style.padding = '0';
         navbar.style.background = '';
     }
 });
