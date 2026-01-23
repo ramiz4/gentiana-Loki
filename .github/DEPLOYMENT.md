@@ -14,10 +14,11 @@ This repository uses GitHub Pages to host the portfolio website with support for
 
 ### PR Preview Deployment
 - **Workflow**: `.github/workflows/pr-preview.yml`
-- **Trigger**: Pull request opened, synchronized, or reopened
+- **Trigger**: Pull request opened, synchronized, reopened, or closed
 - **Target**: Subdirectory in GitHub Pages (`https://ramiz4.github.io/gentiana-loki/pr-{number}/`)
-- **Method**: Deploys to `gh-pages` branch in subdirectory using `peaceiris/actions-gh-pages@v4`
+- **Method**: Single unified job that handles deployment, cleanup, and forked PR notifications
 - **Cleanup**: Automatically removes preview when PR is closed
+- **Design**: Uses conditional steps within a single job to avoid showing skipped checks in PR status
 
 ## Required GitHub Settings
 
