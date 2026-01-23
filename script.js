@@ -486,17 +486,33 @@ const navLinks = document.querySelector('.nav-links');
 if (!hamburger || !navLinks) {
     console.error('Mobile navigation elements not found');
 } else {
-    hamburger.addEventListener('click', () => {
+    // Function to update mobile menu position based on navbar height
+    function updateMobileMenuPosition() {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            const navbarHeight = navbar.offsetHeight;
+            navLinks.style.top = `${navbarHeight}px`;
+            navLinks.style.height = `calc(100vh - ${navbarHeight}px)`;
+        }
+    }
+
+    // Toggle menu function
+    function toggleMenu() {
         navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');
-    });
+        // Update menu position when opening
+        if (navLinks.classList.contains('active')) {
+            updateMobileMenuPosition();
+        }
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
 
     // Add keyboard accessibility for hamburger menu
     hamburger.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            toggleMenu();
         }
     });
 
