@@ -672,6 +672,7 @@ window.addEventListener('scroll', () => {
         }
     } else {
         navbar.style.padding = '1rem 0';
+        navbar.style.background = '';
     }
 });
 
