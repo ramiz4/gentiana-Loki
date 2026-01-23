@@ -82,6 +82,7 @@ if (currentTheme === 'dark') {
     if (themeToggle) {
         const icon = themeToggle.querySelector('i');
         if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+        themeToggle.setAttribute('aria-label', 'Toggle light mode');
     }
 }
 
@@ -127,10 +128,6 @@ if (languageToggle) {
         languageToggle.setAttribute('aria-label', 
             currentLanguage === 'en' ? 'Switch to German' : 'Switch to English'
         );
-        
-        // In a real implementation, this would update all text content
-        // For now, this is a placeholder for the language switching functionality
-        console.log('Language switched to:', currentLanguage);
     });
 }
 
@@ -159,8 +156,6 @@ function updateActiveNav() {
     });
 }
 
-window.addEventListener('scroll', updateActiveNav);
-
 // ========================================
 // Skill Progress Bar Animation on Scroll
 // ========================================
@@ -185,7 +180,37 @@ function animateSkills() {
     }
 }
 
-window.addEventListener('scroll', animateSkills);
+// ========================================
+// Navbar Background on Scroll
+// ========================================
+const navbar = document.querySelector('nav');
+
+function updateNavbar() {
+    if (window.scrollY > 50) {
+        navbar?.classList.add('shadow-xl');
+    } else {
+        navbar?.classList.remove('shadow-xl');
+    }
+}
+
+// ========================================
+// Consolidated Scroll Handler with Throttling
+// ========================================
+let scrollTicking = false;
+
+function handleScroll() {
+    if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+            updateActiveNav();
+            animateSkills();
+            updateNavbar();
+            scrollTicking = false;
+        });
+        scrollTicking = true;
+    }
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
 window.addEventListener('load', animateSkills);
 
 // ========================================
@@ -209,21 +234,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// ========================================
-// Navbar Background on Scroll
-// ========================================
-const navbar = document.querySelector('nav');
-
-function updateNavbar() {
-    if (window.scrollY > 50) {
-        navbar?.classList.add('shadow-xl');
-    } else {
-        navbar?.classList.remove('shadow-xl');
-    }
-}
-
-window.addEventListener('scroll', updateNavbar);
 
 // ========================================
 // Intersection Observer for Fade-in Animations

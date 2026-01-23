@@ -26,18 +26,6 @@ body {
     border-width: 0;
 }
 
-.sr-only:focus,
-.focus\:not-sr-only:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-}
-
 /* Custom animations for hero blob */
 @keyframes blob {
     0%, 100% {
