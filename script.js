@@ -55,6 +55,10 @@ const mobileMenu = document.getElementById('mobileMenu');
 const navLinks = document.querySelectorAll('.nav-link');
 
 if (hamburger && mobileMenu) {
+    // Ensure mobile menu is initially closed
+    mobileMenu.classList.add('-translate-x-full');
+    hamburger.setAttribute('aria-expanded', 'false');
+    
     hamburger.addEventListener('click', (e) => {
         e.stopPropagation();
         mobileMenu.classList.toggle('-translate-x-full');

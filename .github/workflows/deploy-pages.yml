@@ -46,6 +46,11 @@ jobs:
               exit 1
             fi
           done
+          # Copy PDF if it exists
+          if [ -f cv-de-gentiana-loki-2026.pdf ]; then
+            cp cv-de-gentiana-loki-2026.pdf _site/
+            echo "✓ Copied PDF file"
+          fi
           echo "Build completed successfully"
 
       - name: Upload artifact

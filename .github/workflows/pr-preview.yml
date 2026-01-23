@@ -55,6 +55,11 @@ jobs:
           cp index.html _site/
           cp styles.css _site/
           cp script.js _site/
+          # Copy PDF if it exists
+          if [ -f cv-de-gentiana-loki-2026.pdf ]; then
+            cp cv-de-gentiana-loki-2026.pdf _site/
+            echo "✓ Copied PDF file"
+          fi
           echo "✓ Site files prepared for deployment"
 
       - name: Deploy to GitHub Pages (PR subdirectory)
