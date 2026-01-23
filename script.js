@@ -498,12 +498,16 @@ if (!hamburger || !navLinks) {
 
     // Toggle menu function
     function toggleMenu() {
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        // Update menu position when opening
-        if (navLinks.classList.contains('active')) {
+        // Check if we're about to open the menu
+        const isOpening = !navLinks.classList.contains('active');
+        
+        // Update menu position before adding 'active' class to avoid diagonal slide
+        if (isOpening) {
             updateMobileMenuPosition();
         }
+        
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
     }
 
     hamburger.addEventListener('click', toggleMenu);
