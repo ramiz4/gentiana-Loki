@@ -34,16 +34,16 @@ This repository uses GitHub Pages to host the portfolio website with support for
 
 ### Why This Configuration Is Required
 
-Both production and PR preview deployments use the `peaceiris/actions-gh-pages@v4` action which pushes content to the `gh-pages` branch. This approach allows:
+Both production and PR preview deployments use the `peaceiris/actions-gh-pages` action (pinned to commit SHA `4f9cc6602d3f66b9c108549d475ec49e8ef4d45e` for v4.0.0) which pushes content to the `gh-pages` branch. This approach allows:
 - Production content at the root path
 - PR previews in subdirectories (`pr-1/`, `pr-2/`, etc.)
 - Multiple deployments without conflicts (using `keep_files: true`)
 
-**Note on `keep_files: true`**: This setting preserves all files on the `gh-pages` branch, including PR preview directories. While this means renamed/deleted production files won't be automatically removed (and the branch may grow over time), it's a reasonable tradeoff for supporting PR previews. Periodic manual cleanup of the `gh-pages` branch can be performed if needed.
+**Production Deployment Strategy**: The production workflow includes a cleanup step that removes stale files at the root while preserving `pr-*` directories. This prevents accumulation of renamed or deleted files while keeping PR previews intact. The `keep_files: true` setting then ensures PR preview subdirectories are preserved when new production content is deployed.
 
 ## Security Considerations
 
-The workflows use `peaceiris/actions-gh-pages@v4` pinned to the `v4` tag. For enhanced security, consider pinning to a specific commit SHA instead of a mutable tag to protect against supply chain attacks. However, this makes maintenance more difficult as you'll need to manually update the SHA for security patches and features.
+The workflows use `peaceiris/actions-gh-pages` pinned to commit SHA `4f9cc6602d3f66b9c108549d475ec49e8ef4d45e` (v4.0.0) instead of a mutable tag. This provides protection against supply chain attacks where a compromised tag could execute malicious code. The commit SHA is immutable and ensures the exact version of the action is used. When updating, verify the new commit SHA corresponds to a legitimate release.
 
 ## Troubleshooting
 
