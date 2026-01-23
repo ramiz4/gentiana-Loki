@@ -55,7 +55,12 @@ const mobileMenu = document.getElementById('mobileMenu');
 const navLinks = document.querySelectorAll('.nav-link');
 
 if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
+    // Ensure mobile menu is initially closed
+    mobileMenu.classList.add('-translate-x-full');
+    hamburger.setAttribute('aria-expanded', 'false');
+    
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
         mobileMenu.classList.toggle('-translate-x-full');
         hamburger.setAttribute('aria-expanded', !mobileMenu.classList.contains('-translate-x-full'));
     });
@@ -66,6 +71,18 @@ if (hamburger && mobileMenu) {
             mobileMenu.classList.add('-translate-x-full');
             hamburger.setAttribute('aria-expanded', 'false');
         });
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const isMenuOpen = !mobileMenu.classList.contains('-translate-x-full');
+        const isClickInsideMenu = mobileMenu.contains(e.target);
+        const isClickOnHamburger = hamburger.contains(e.target);
+        
+        if (isMenuOpen && !isClickInsideMenu && !isClickOnHamburger) {
+            mobileMenu.classList.add('-translate-x-full');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
     });
 }
 
