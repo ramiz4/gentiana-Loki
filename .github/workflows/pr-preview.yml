@@ -9,151 +9,111 @@ permissions:
   contents: write       # Required to push to gh-pages branch
   pull-requests: write  # Required to post PR comments
 
-# Ensure only one deployment per PR at a time
+# Ensure only one deployment to gh-pages at a time across all workflows
 concurrency:
-  group: pr-preview-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   # Main job that handles all PR preview operations
   pr-preview:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      # Step 1: Handle forked PRs (cannot deploy due to permissions)
-      - name: Comment on forked PR
-        if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name != github.repository
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            const commentBody = `## ℹ️ Preview Deployment Unavailable
-            
-            PR previews are not available for pull requests from forked repositories due to GitHub security restrictions.
-            
-            _Maintainers can test this PR by checking out the branch locally._`;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-              body: commentBody
-            });
+      - uses: actions/checkout@v4
 
-      # Step 2: Deploy preview for opened/updated PRs from same repository
-      - name: Checkout PR code
-        if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: actions/checkout@v4
-
-      - name: Prepare site files for deployment
-        if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Build site
+        if: github.event.action != 'closed'
         run: |
-          echo "Preparing static site files..."
+          echo "Building static site..."
           mkdir -p _site
-          # Copy the main website files (matching production build)
-          cp index.html _site/
-          cp styles.css _site/
-          cp script.js _site/
+          # Copy the main website files from root directory
+          for file in index.html styles.css script.js; do
+            if [ -f "$file" ]; then
+              cp "$file" _site/
+              echo "✓ Copied $file"
+            else
+              echo "✗ Error: Required file $file not found"
+              exit 1
+            fi
+          done
           # Copy PDF if it exists
           if [ -f cv-de-gentiana-loki-2026.pdf ]; then
             cp cv-de-gentiana-loki-2026.pdf _site/
             echo "✓ Copied PDF file"
           fi
-          echo "✓ Site files prepared for deployment"
+          echo "Build completed successfully"
 
-      - name: Deploy to GitHub Pages (PR subdirectory)
-        if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Deploy Preview
+        if: github.event.action != 'closed'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _site
+          publish_dir: ./_site
           destination_dir: pr-${{ github.event.pull_request.number }}
-          keep_files: true  # Preserve existing content (production + other PRs)
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Deploy preview for PR #${{ github.event.pull_request.number }}"
 
-      - name: Comment PR with preview URL
-        if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Comment PR
+        if: github.event.action != 'closed'
         uses: actions/github-script@v7
         with:
           script: |
-            const prNumber = context.payload.pull_request.number;
-            const previewUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}/`;
-            
-            // Comment body with preview URL
-            const commentBody = `## 🚀 Preview Deployment
-            
-            Your PR preview is ready! 
-            
-            🔗 **Preview URL:** ${previewUrl}
-            
-            _This preview will be automatically updated on new commits and removed when the PR is closed._`;
-            
-            // Find existing bot comment (paginate to avoid duplicates on large PRs)
-            let botComment = null;
-            let page = 1;
-            
-            while (!botComment) {
-              const { data: comments } = await github.rest.issues.listComments({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                per_page: 100,
-                page,
-              });
-              
-              if (!comments.length) {
-                break;
-              }
-              
-              botComment = comments.find(comment =>
-                comment.user &&
-                comment.user.type === 'Bot' &&
-                typeof comment.body === 'string' &&
-                comment.body.includes('Preview Deployment')
-              );
-              
-              if (botComment || comments.length < 100) {
-                break;
-              }
-              
-              page += 1;
-            }
-            
-            // Update existing comment or create new one
+            const pr = context.payload.pull_request.number;
+            const url = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${pr}/`;
+            const body = `## 🚀 Preview Deployment\n\nYour PR preview is ready!\n\n🔗 **Preview URL:** ${url}`;
+
+            const comments = await github.rest.issues.listComments({ ...context.repo, issue_number: pr, per_page: 100 });
+            const botComment = comments.data.find(c => c.user?.type === 'Bot' && c.body?.includes('Preview Deployment'));
+
             if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              });
-              console.log('Updated existing comment');
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: botComment.id, body });
             } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: commentBody
-              });
-              console.log('Created new comment');
+              await github.rest.issues.createComment({ ...context.repo, issue_number: pr, body });
             }
 
-      # Step 3: Clean up preview when PR is closed
-      - name: Checkout gh-pages branch
-        if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
+      - name: Prepare Cleanup
+        if: github.event.action == 'closed'
+        run: mkdir -p _empty_cleanup
 
-      - name: Remove PR preview directory
-        if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          PR_DIR="pr-${{ github.event.pull_request.number }}"
-          if [ -d "$PR_DIR" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git rm -rf "$PR_DIR"
-            git commit -m "Clean up preview for PR #${{ github.event.pull_request.number }}"
-            git push
-            echo "✓ Removed preview directory: $PR_DIR"
-          else
-            echo "ℹ No preview directory found: $PR_DIR"
-          fi
+      - name: Cleanup PR Preview
+        if: github.event.action == 'closed'
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_empty_cleanup
+          destination_dir: pr-${{ github.event.pull_request.number }}
+          keep_files: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Cleanup preview for PR #${{ github.event.pull_request.number }}"
+
+  # Notification job for PRs from forks where previews are disabled
+  fork-notification:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name != github.repository && github.event.action != 'closed'
+    steps:
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request.number;
+            const body = `## ⚠️ Preview Deployment Skip\n\nPreview deployments are disabled for PRs from forked repositories for security reasons. To see a preview, please branch directly within the main repository if you have permissions, or wait for a maintainer to review and test your changes.`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: pr,
+              per_page: 100
+            });
+
+            const botComment = comments.find(c => c.user?.type === 'Bot' && c.body?.includes('Preview Deployment Skip'));
+
+            if (!botComment) {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: pr,
+                body
+              });
+            }
