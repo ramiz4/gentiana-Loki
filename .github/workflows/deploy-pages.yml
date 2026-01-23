@@ -28,48 +28,15 @@ jobs:
 
       - name: Build site
         run: |
-          echo "Building static site..."
           mkdir -p _site
-          # Copy the main website files from root directory
-          for file in index.html styles.css script.js; do
-            if [ -f "$file" ]; then
-              cp "$file" _site/
-              echo "✓ Copied $file"
-            else
-              echo "✗ Error: Required file $file not found"
-              exit 1
-            fi
-          done
-          # Copy PDF if it exists
-          if [ -f cv-de-gentiana-loki-2026.pdf ]; then
-            cp cv-de-gentiana-loki-2026.pdf _site/
-            echo "✓ Copied PDF file"
-          fi
-          echo "Build completed successfully"
-
-      - name: Checkout gh-pages branch
-        continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages-content
-
-      - name: Clean up stale production files
-        run: |
-          if [ -d "gh-pages-content" ]; then
-            echo "Cleaning up stale production files while preserving PR previews..."
-            cd gh-pages-content
-            # Remove all files in root except pr-* directories
-            find . -maxdepth 1 ! -name '.' ! -name '.git' ! -name 'pr-*' -exec rm -rf {} + 2>/dev/null || true
-            echo "✓ Removed stale production files, preserved pr-* directories"
-            cd ..
-          else
-            echo "ℹ gh-pages branch doesn't exist yet, skipping cleanup"
-          fi
+          cp index.html script.js styles.css cv-*.pdf _site/ 2>/dev/null || true
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _site
-          keep_files: true  # Preserve PR preview directories
+          publish_dir: ./_site
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Deploy production site"
