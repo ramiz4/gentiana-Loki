@@ -1,0 +1,27 @@
+{
+  "name": "gentiana-loki",
+  "version": "1.0.0",
+  "description": "My personal portfolio and resume website.",
+  "main": "script.js",
+  "scripts": {
+    "build": "tailwindcss -i ./tailwind-input.css -o ./styles.css --minify",
+    "dev": "tailwindcss -i ./tailwind-input.css -o ./styles.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramiz4/gentiana-loki.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ramiz4/gentiana-loki/issues"
+  },
+  "homepage": "https://github.com/ramiz4/gentiana-loki#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}

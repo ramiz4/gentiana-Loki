@@ -9,11 +9,6 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
 
-    <!-- Tailwind CSS via CDN -->
-    <!-- Using Tailwind Play CDN for static site. Does not support SRI as it generates CSS dynamically.
-         For production with stricter security requirements, consider building with Tailwind CLI and self-hosting. -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -23,48 +18,8 @@
       referrerpolicy="no-referrer"
     />
 
-    <!-- Custom styles for glassmorphism effects -->
+    <!-- Custom styles including Tailwind CSS -->
     <link rel="stylesheet" href="styles.css" />
-
-    <!-- Tailwind Config -->
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                50: "#f5f7ff",
-                100: "#ebefff",
-                200: "#d6dfff",
-                300: "#b3c3ff",
-                400: "#8c9eff",
-                500: "#667eea",
-                600: "#5568d3",
-                700: "#4553b8",
-                800: "#364194",
-                900: "#2a3475",
-              },
-              secondary: {
-                50: "#faf5ff",
-                100: "#f3e8ff",
-                200: "#e9d5ff",
-                300: "#d8b4fe",
-                400: "#c084fc",
-                500: "#764ba2",
-                600: "#6d3f94",
-                700: "#5e3380",
-                800: "#4e2a6a",
-                900: "#3f2256",
-              },
-            },
-            backdropBlur: {
-              xs: "2px",
-            },
-          },
-        },
-      };
-    </script>
   </head>
   <body
     class="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300"

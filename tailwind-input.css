@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ========================================
    Minimal Custom Styles for Glassmorphism
    Most styling is handled by Tailwind CSS
