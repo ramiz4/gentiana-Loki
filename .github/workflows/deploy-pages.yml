@@ -31,14 +31,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
       - name: Build site
         run: |
           echo "Building static site..."
-          # Install Tailwind CSS
-          npm install -D tailwindcss @tailwindcss/cli
-
-          # Build Tailwind CSS
-          npx tailwindcss -i ./tailwind-input.css -o ./styles.css --minify
+          pnpm run build
 
           mkdir -p _site
           # Copy the main website files
