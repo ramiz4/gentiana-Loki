@@ -49,7 +49,7 @@ jobs:
           echo "✓ Copied compiled styles.css"
           echo "✓ Copied script.js"
           echo "✓ Copied favicon.svg"
-          
+
           # Copy PDF if it exists
           if [ -f cv-de-gentiana-loki-2026.pdf ]; then
             cp cv-de-gentiana-loki-2026.pdf _site/
