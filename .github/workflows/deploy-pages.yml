@@ -44,6 +44,10 @@ jobs:
           # Copy the main website files
           cp index.html _site/
           cp styles.css _site/
+          cp script.js _site/
+          cp favicon.svg _site/
+
+          echo "✓ Copied index.html"
           echo "✓ Copied compiled styles.css"
           echo "✓ Copied script.js"
           echo "✓ Copied favicon.svg"
