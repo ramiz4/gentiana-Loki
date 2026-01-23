@@ -48,6 +48,7 @@ jobs:
           echo "Build completed successfully"
 
       - name: Checkout gh-pages branch
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           ref: gh-pages
@@ -55,13 +56,16 @@ jobs:
 
       - name: Clean up stale production files
         run: |
-          echo "Cleaning up stale production files while preserving PR previews..."
-          cd gh-pages-content
-          # Remove all files in root except pr-* directories
-          shopt -s extglob
-          rm -rf !(pr-*)
-          echo "✓ Removed stale production files, preserved pr-* directories"
-          cd ..
+          if [ -d "gh-pages-content" ]; then
+            echo "Cleaning up stale production files while preserving PR previews..."
+            cd gh-pages-content
+            # Remove all files in root except pr-* directories
+            find . -maxdepth 1 ! -name '.' ! -name '.git' ! -name 'pr-*' -exec rm -rf {} + 2>/dev/null || true
+            echo "✓ Removed stale production files, preserved pr-* directories"
+            cd ..
+          else
+            echo "ℹ gh-pages branch doesn't exist yet, skipping cleanup"
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
