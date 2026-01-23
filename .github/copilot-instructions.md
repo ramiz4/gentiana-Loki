@@ -12,7 +12,7 @@ This is a personal portfolio and resume website for Gentiana Loki, showcasing pr
 ## Code Review Focus Areas
 
 ### 1. Accessibility (♿ High Priority)
-- **ALWAYS** ensure ARIA labels are present for interactive elements
+- **ENSURE** every interactive element has an accessible name, preferring native/visible labels and only using `aria-label`/`aria-labelledby` when needed (for example, icon-only controls)
 - **VERIFY** keyboard navigation works for all interactive components
 - **CHECK** that all images have appropriate `alt` attributes
 - **ENSURE** color contrast ratios meet WCAG 2.1 AA standards
@@ -65,7 +65,7 @@ This is a personal portfolio and resume website for Gentiana Loki, showcasing pr
 
 ### CSS Guidelines
 - **Use CSS Variables** for theming (already established in `:root`)
-- **Follow BEM-like** naming for complex components
+- **Follow kebab-case** naming convention for classes (e.g., `nav-links`, `hero-content`, `btn-primary`)
 - **Mobile-first** approach for responsive design
 - **Prefer flexbox and grid** over floats and positioning hacks
 - **Use transitions** for smooth state changes
